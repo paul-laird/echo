@@ -19,11 +19,12 @@ namespace Server
             int port = 1234;
             TcpListener listener = new TcpListener(IPAddress.Loopback, port);
             listener.Start();
-
+            List<TcpClient> clients = new List<TcpClient>();
             while (true)
             {
                 TcpClient client = listener.AcceptTcpClient();
-                Handler h = new Handler(client);
+                clients.Add(client);
+                Handler h = new Handler(client,clients);
                 new Thread(h.run).Start();
             }
         }
